@@ -74,6 +74,11 @@ android {
     }
     testOptions {
         unitTests.isReturnDefaultValues = true
+        unitTests.isIncludeAndroidResources = true
+        unitTests.all {
+            it.systemProperty("roborazzi.test.record", "true")
+            it.systemProperty("roborazzi.output.dir", layout.buildDirectory.dir("captures").get().asFile.path)
+        }
     }
 }
 
@@ -92,4 +97,10 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.org.json)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.test.manifest)
 }

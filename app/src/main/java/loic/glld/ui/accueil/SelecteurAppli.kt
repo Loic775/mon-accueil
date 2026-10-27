@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -63,7 +64,7 @@ fun SelecteurAppli(
                     horizontalArrangement = Arrangement.spacedBy(24.px),
                     verticalArrangement = Arrangement.spacedBy(24.px),
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(16.px),
-                    initialFirstVisibleItemIndex = indexInitial,
+                    state = rememberLazyGridState(initialFirstVisibleItemIndex = indexInitial),
                 ) {
                     itemsIndexed(entrees) { i, appli ->
                         CarteFocusable(

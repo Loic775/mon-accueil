@@ -1,4 +1,4 @@
-package loic.glld.ui.accueil
+﻿package loic.glld.ui.accueil
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -86,7 +86,7 @@ private fun ContenuTuile(appli: AppliTv?) {
             else -> {
                 val image = appli.image
                 when {
-                    appli.paquet == AppsRepository.PARAMETRES -> Engrenage(Modifier.size(92.px))
+                    appli.paquet == AppsRepository.PARAMETRES -> Engrenage(Modifier.padding(horizontal = 10.px).size(68.px))
                     image != null && appli.estBanniere -> Image(
                         image, null,
                         Modifier.width(164.px).fillMaxHeight().clip(RoundedCornerShape(12.px)),

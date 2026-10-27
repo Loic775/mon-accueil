@@ -24,8 +24,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import loic.glld.applis.AppliTv
 import loic.glld.ui.composants.DialogueQuitter
 import loic.glld.ui.theme.px
+import java.time.ZonedDateTime
 
 @Composable
 fun EcranAccueil(onQuitter: () -> Unit, vm: AccueilViewModel = viewModel()) {
@@ -44,30 +46,16 @@ fun EcranAccueil(onQuitter: () -> Unit, vm: AccueilViewModel = viewModel()) {
     // Retour ne ferme jamais l'appli directement : on demande confirmation.
     BackHandler(enabled = !confirmerQuitter && tuileEnChoix == null) { confirmerQuitter = true }
 
-    Column(
-        Modifier.fillMaxSize().padding(horizontal = 88.px, vertical = 72.px),
-        verticalArrangement = Arrangement.spacedBy(40.px),
-    ) {
-        // 1 + 2 : horloge à gauche, météo à droite
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
-            BlocHorloge(maintenant, Modifier.weight(1f))
-            CarteMeteo(meteo)
-        }
-        // 3 + 4 : agenda à gauche, photo à droite
-        Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(40.px)) {
-            CarteAgenda(lignes = emptyList(), message = null)
-            CadrePhoto(Modifier.weight(1f))
-        }
-        // 5 : tuiles d'applis
-        RangeeApplis(
-            tuiles = tuiles,
-            onLancer = { appli ->
-                if (!vm.lancer(appli)) Toast.makeText(contexte, "Impossible d'ouvrir ${appli.nom}", Toast.LENGTH_SHORT).show()
-            },
-            onChoisir = { tuileEnChoix = it },
-            premiereTuile = Modifier.focusRequester(focusPremiereTuile),
-        )
-    }
+    TableauDeBord(
+        maintenant = maintenant,
+        meteo = meteo,
+        tuiles = tuiles,
+        onLancer = { appli ->
+            if (!vm.lancer(appli)) Toast.makeText(contexte, "Impossible d'ouvrir ${appli.nom}", Toast.LENGTH_SHORT).show()
+        },
+        onChoisir = { tuileEnChoix = it },
+        premiereTuile = Modifier.focusRequester(focusPremiereTuile),
+    )
 
     LaunchedEffect(Unit) { runCatching { focusPremiereTuile.requestFocus() } }
 
@@ -86,5 +74,34 @@ fun EcranAccueil(onQuitter: () -> Unit, vm: AccueilViewModel = viewModel()) {
 
     if (confirmerQuitter) {
         DialogueQuitter(onRester = { confirmerQuitter = false }, onQuitter = onQuitter)
+    }
+}
+
+/** La mise en page du tableau de bord, sans logique (affichable aussi dans les tests). */
+@Composable
+fun TableauDeBord(
+    maintenant: ZonedDateTime,
+    meteo: EtatMeteo,
+    tuiles: List<AppliTv?>,
+    onLancer: (AppliTv) -> Unit,
+    onChoisir: (Int) -> Unit,
+    premiereTuile: Modifier = Modifier,
+) {
+    Column(
+        Modifier.fillMaxSize().padding(horizontal = 88.px, vertical = 72.px),
+        verticalArrangement = Arrangement.spacedBy(40.px),
+    ) {
+        // 1 + 2 : horloge à gauche, météo à droite
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+            BlocHorloge(maintenant, Modifier.weight(1f))
+            CarteMeteo(meteo)
+        }
+        // 3 + 4 : agenda à gauche, photo à droite
+        Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(40.px)) {
+            CarteAgenda(lignes = emptyList(), message = null)
+            CadrePhoto(Modifier.weight(1f))
+        }
+        // 5 : tuiles d'applis
+        RangeeApplis(tuiles = tuiles, onLancer = onLancer, onChoisir = onChoisir, premiereTuile = premiereTuile)
     }
 }
