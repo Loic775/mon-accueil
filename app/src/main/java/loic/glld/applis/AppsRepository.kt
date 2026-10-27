@@ -72,8 +72,8 @@ class AppsRepository(private val context: Context) {
     companion object {
         /** Pseudo-appli : ouvre les Paramètres de la Fire TV. */
         const val PARAMETRES = "__parametres__"
-        private const val LARGEUR_BANNIERE = 256
-        private const val HAUTEUR_BANNIERE = 144
-        private const val TAILLE_ICONE = 112
+        private const val LARGEUR_BANNIERE = 320
+        private const val HAUTEUR_BANNIERE = 180
+        private const val TAILLE_ICONE = 128
     }
 }

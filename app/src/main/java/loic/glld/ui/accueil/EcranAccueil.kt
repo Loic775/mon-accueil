@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -86,22 +88,26 @@ fun TableauDeBord(
     onLancer: (AppliTv) -> Unit,
     onChoisir: (Int) -> Unit,
     premiereTuile: Modifier = Modifier,
+    /** Pour les captures de test uniquement : simule le focus sur une tuile. */
+    tuileFocaliseeApercu: Int? = null,
 ) {
-    Column(
-        Modifier.fillMaxSize().padding(horizontal = 88.px, vertical = 72.px),
-        verticalArrangement = Arrangement.spacedBy(40.px),
-    ) {
-        // 1 + 2 : horloge à gauche, météo à droite
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+    Column(Modifier.fillMaxSize().padding(start = 96.px, end = 96.px, top = 80.px, bottom = 40.px)) {
+        // Horloge à gauche, météo à droite, centrées dans l'espace au-dessus du dock
+        Row(
+            Modifier.fillMaxWidth().weight(1f),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             BlocHorloge(maintenant, Modifier.weight(1f))
             CarteMeteo(meteo)
         }
-        // 3 + 4 : agenda à gauche, photo à droite
-        Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(40.px)) {
-            CarteAgenda(lignes = emptyList(), message = null)
-            CadrePhoto(Modifier.weight(1f))
-        }
-        // 5 : tuiles d'applis
-        RangeeApplis(tuiles = tuiles, onLancer = onLancer, onChoisir = onChoisir, premiereTuile = premiereTuile)
+        Spacer(Modifier.height(56.px))
+        // Dock d'applis
+        RangeeApplis(
+            tuiles = tuiles,
+            onLancer = onLancer,
+            onChoisir = onChoisir,
+            premiereTuile = premiereTuile,
+            tuileFocaliseeApercu = tuileFocaliseeApercu,
+        )
     }
 }

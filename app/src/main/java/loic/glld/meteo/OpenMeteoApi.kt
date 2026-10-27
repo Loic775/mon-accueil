@@ -3,7 +3,7 @@ package loic.glld.meteo
 import org.json.JSONObject
 import kotlin.math.roundToInt
 
-/** Une mini-case de prévision (+3 h, +6 h, +9 h, demain). */
+/** Une prévision (+3 h, +6 h, +9 h, demain). */
 data class Prevision(
     val libelle: String,
     val temperature: Int,
@@ -21,6 +21,11 @@ data class Meteo(
     val previsions: List<Prevision>,
     /** Heure de la mise à jour (millisecondes). */
     val majLe: Long,
+    val maxJour: Int? = null,
+    val minJour: Int? = null,
+    /** « 08:12 » */
+    val lever: String? = null,
+    val coucher: String? = null,
 )
 
 object OpenMeteoApi {
@@ -29,7 +34,7 @@ object OpenMeteoApi {
         "?latitude=48.8809&longitude=2.5944&timezone=Europe%2FParis" +
         "&current=temperature_2m,apparent_temperature,weather_code,is_day" +
         "&hourly=temperature_2m,weather_code,is_day" +
-        "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset" +
         "&forecast_days=3"
 
     fun lire(brut: String, majLe: Long): Meteo {
@@ -62,11 +67,13 @@ object OpenMeteoApi {
                 )
             }
         }
+        val maxi = quotidien.getJSONArray("temperature_2m_max")
+        val mini = quotidien.getJSONArray("temperature_2m_min")
         if (quotidien.getJSONArray("time").length() > 1) {
             previsions += Prevision(
                 libelle = "Demain",
-                temperature = quotidien.getJSONArray("temperature_2m_max").getDouble(1).roundToInt(),
-                temperatureMin = quotidien.getJSONArray("temperature_2m_min").getDouble(1).roundToInt(),
+                temperature = maxi.getDouble(1).roundToInt(),
+                temperatureMin = mini.getDouble(1).roundToInt(),
                 code = quotidien.getJSONArray("weather_code").getInt(1),
                 jour = true,
             )
@@ -79,6 +86,10 @@ object OpenMeteoApi {
             jour = actuel.getInt("is_day") == 1,
             previsions = previsions,
             majLe = majLe,
+            maxJour = maxi.optDouble(0).takeUnless { it.isNaN() }?.roundToInt(),
+            minJour = mini.optDouble(0).takeUnless { it.isNaN() }?.roundToInt(),
+            lever = quotidien.optJSONArray("sunrise")?.optString(0)?.takeIf { it.length >= 16 }?.substring(11, 16),
+            coucher = quotidien.optJSONArray("sunset")?.optString(0)?.takeIf { it.length >= 16 }?.substring(11, 16),
         )
     }
 }

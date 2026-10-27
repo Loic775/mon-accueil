@@ -1,6 +1,5 @@
 package loic.glld.ui.theme
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -13,12 +12,12 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.darkColorScheme
 
 @Composable
-fun ThemeMonAccueil(contenu: @Composable () -> Unit) {
+fun ThemeMonAccueil(fondAnime: Boolean = true, contenu: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = darkColorScheme(
-            primary = Couleurs.Accent,
+            primary = Couleurs.Cyan,
             background = Couleurs.Fond,
-            surface = Couleurs.Carte,
+            surface = Couleurs.Fond,
             onSurface = Couleurs.Texte,
             onBackground = Couleurs.Texte,
         ),
@@ -27,7 +26,8 @@ fun ThemeMonAccueil(contenu: @Composable () -> Unit) {
             LocalContentColor provides Couleurs.Texte,
             LocalTextStyle provides TextStyle(fontFamily = Inter),
         ) {
-            Box(Modifier.fillMaxSize().background(Couleurs.Fond)) {
+            Box(Modifier.fillMaxSize()) {
+                FondAurore(anime = fondAnime)
                 FournisseurEchelle(contenu)
             }
         }

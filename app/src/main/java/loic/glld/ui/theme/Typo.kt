@@ -14,6 +14,7 @@ val Inter = FontFamily(
 
 /** Space Grotesk pour l'heure et les chiffres. */
 val SpaceGrotesk = FontFamily(
+    Font(R.font.space_grotesk_light, FontWeight.Light),
     Font(R.font.space_grotesk_medium, FontWeight.Medium),
     Font(R.font.space_grotesk_bold, FontWeight.Bold),
 )

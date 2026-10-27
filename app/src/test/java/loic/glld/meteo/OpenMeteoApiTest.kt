@@ -20,7 +20,9 @@ class OpenMeteoApiTest {
             "time": ["2026-10-27", "2026-10-28", "2026-10-29"],
             "weather_code": [61, 2, 0],
             "temperature_2m_max": [13.4, 15.6, 14.0],
-            "temperature_2m_min": [7.1, 6.5, 5.0]
+            "temperature_2m_min": [7.1, 6.5, 5.0],
+            "sunrise": ["2026-10-27T08:12", "2026-10-28T08:14", "2026-10-29T08:16"],
+            "sunset": ["2026-10-27T17:46", "2026-10-28T17:44", "2026-10-29T17:42"]
           }
         }
     """.trimIndent()
@@ -33,6 +35,19 @@ class OpenMeteoApiTest {
         assertEquals(61, m.code)
         assertEquals(true, m.jour)
         assertEquals(42L, m.majLe)
+        assertEquals(13, m.maxJour)
+        assertEquals(7, m.minJour)
+        assertEquals("08:12", m.lever)
+        assertEquals("17:46", m.coucher)
+    }
+
+    @Test
+    fun ancienCacheSansLeverNiCoucher() {
+        // Les réponses enregistrées par la 1re version ne contenaient pas ces champs
+        val ancien = reponse.replace("\"sunrise\"", "\"x1\"").replace("\"sunset\"", "\"x2\"")
+        val m = OpenMeteoApi.lire(ancien, 0L)
+        assertEquals(null, m.lever)
+        assertEquals(13, m.temperature)
     }
 
     @Test
