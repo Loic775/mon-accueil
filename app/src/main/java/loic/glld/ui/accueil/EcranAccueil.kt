@@ -56,6 +56,9 @@ fun EcranAccueil(onQuitter: () -> Unit, vm: AccueilViewModel = viewModel()) {
             if (!vm.lancer(appli)) Toast.makeText(contexte, "Impossible d'ouvrir ${appli.nom}", Toast.LENGTH_SHORT).show()
         },
         onChoisir = { tuileEnChoix = it },
+        onParametres = {
+            if (!vm.ouvrirParametres()) Toast.makeText(contexte, "Impossible d'ouvrir les Paramètres", Toast.LENGTH_SHORT).show()
+        },
         premiereTuile = Modifier.focusRequester(focusPremiereTuile),
     )
 
@@ -87,11 +90,17 @@ fun TableauDeBord(
     tuiles: List<AppliTv?>,
     onLancer: (AppliTv) -> Unit,
     onChoisir: (Int) -> Unit,
+    onParametres: () -> Unit,
     premiereTuile: Modifier = Modifier,
     /** Pour les captures de test uniquement : simule le focus sur une tuile. */
     tuileFocaliseeApercu: Int? = null,
 ) {
-    Column(Modifier.fillMaxSize().padding(start = 96.px, end = 96.px, top = 80.px, bottom = 40.px)) {
+    Column(Modifier.fillMaxSize().padding(start = 96.px, end = 96.px, top = 56.px, bottom = 36.px)) {
+        // Barre du haut : salutation à gauche, Paramètres à droite
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Salutation(Modifier.weight(1f))
+            BoutonParametres(onParametres)
+        }
         // Horloge à gauche, météo à droite, centrées dans l'espace au-dessus du dock
         Row(
             Modifier.fillMaxWidth().weight(1f),
@@ -100,7 +109,7 @@ fun TableauDeBord(
             BlocHorloge(maintenant, Modifier.weight(1f))
             CarteMeteo(meteo)
         }
-        Spacer(Modifier.height(56.px))
+        Spacer(Modifier.height(40.px))
         // Dock d'applis
         RangeeApplis(
             tuiles = tuiles,

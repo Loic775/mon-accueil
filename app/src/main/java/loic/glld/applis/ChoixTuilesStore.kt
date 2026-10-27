@@ -26,7 +26,7 @@ class ChoixTuilesStore(private val context: Context) {
     private fun cle(index: Int) = stringPreferencesKey("tuile_$index")
 
     companion object {
-        const val NOMBRE_TUILES = 5
+        const val NOMBRE_TUILES = 6
 
         /** Applis par défaut, par tuile : on prend le premier paquet installé. */
         val PAR_DEFAUT: List<List<String>> = listOf(
@@ -34,7 +34,8 @@ class ChoixTuilesStore(private val context: Context) {
             listOf("com.amazon.firetv.youtube", "com.google.android.youtube.tv", "com.google.android.youtube.googletv"),
             listOf("com.amazon.avod", "com.amazon.firebat", "com.amazon.amazonvideo.livingroom", "com.amazon.avod.thirdpartyclient"),
             listOf("com.spotify.tv.android", "com.spotify.music"),
-            listOf(AppsRepository.PARAMETRES),
+            listOf("com.disney.disneyplus", "com.disney.disneyplus.prod"),
+            listOf("com.canal.android.canal", "fr.francetv.pluzz", "com.molotov.app", "tv.twitch.android.app"),
         )
     }
 }

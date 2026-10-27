@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import loic.glld.MonAccueilApp
 import loic.glld.applis.AppliTv
+import loic.glld.applis.AppsRepository
 import loic.glld.applis.ChoixTuilesStore
 import loic.glld.meteo.Meteo
 
@@ -69,6 +70,8 @@ class AccueilViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun lancer(appli: AppliTv): Boolean = app.applis.lancer(appli.paquet)
+
+    fun ouvrirParametres(): Boolean = app.applis.lancer(AppsRepository.PARAMETRES)
 
     fun choisir(index: Int, appli: AppliTv?) {
         viewModelScope.launch { app.choixTuiles.definir(index, appli?.paquet ?: "") }

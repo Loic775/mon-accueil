@@ -67,50 +67,54 @@ fun rememberMaintenant(): ZonedDateTime {
     return maintenant
 }
 
-private val LARGEUR_HORLOGE = 900
+private val LARGEUR_HORLOGE = 740
+
+/** « Bonjour Loïc » précédé du point lumineux qui respire. */
+@Composable
+fun Salutation(modifier: Modifier = Modifier) {
+    Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+        PointVivant()
+        Spacer(Modifier.width(16.px))
+        Text("Bonjour Loïc", fontSize = 36.pxt, color = Couleurs.TexteSecondaire, fontWeight = FontWeight.Medium)
+    }
+}
 
 @Composable
 fun BlocHorloge(maintenant: ZonedDateTime, modifier: Modifier = Modifier) {
     Column(modifier) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            PointVivant()
-            Spacer(Modifier.width(16.px))
-            Text("Bonjour Loïc", fontSize = 36.pxt, color = Couleurs.TexteSecondaire, fontWeight = FontWeight.Medium)
-        }
-        Spacer(Modifier.height(40.px))
         Row {
             Text(
                 maintenant.format(FORMAT_HEURE),
-                modifier = Modifier.offset(x = (-10).px).hauteurVisuelle(250.px),
+                modifier = Modifier.offset(x = (-8).px).hauteurVisuelle(200.px),
                 style = TextStyle(
                     brush = Degrades.Chiffres,
                     fontFamily = SpaceGrotesk,
                     fontWeight = FontWeight.Light,
-                    fontSize = 300.pxt,
-                    letterSpacing = (-12).pxt,
+                    fontSize = 240.pxt,
+                    letterSpacing = (-10).pxt,
                     fontFeatureSettings = CHIFFRES_FIXES,
                 ),
             )
             Text(
                 maintenant.format(FORMAT_SECONDES),
-                modifier = Modifier.padding(start = 14.px).hauteurVisuelle(56.px),
+                modifier = Modifier.padding(start = 12.px).hauteurVisuelle(46.px),
                 style = TextStyle(
                     brush = Degrades.Accent,
                     fontFamily = SpaceGrotesk,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 60.pxt,
+                    fontSize = 50.pxt,
                     fontFeatureSettings = CHIFFRES_FIXES,
                 ),
             )
         }
-        Spacer(Modifier.height(44.px))
-        BarreSecondes(maintenant.second, Modifier.width(LARGEUR_HORLOGE.px).height(24.px))
-        Spacer(Modifier.height(30.px))
+        Spacer(Modifier.height(40.px))
+        BarreSecondes(maintenant.second, Modifier.width(LARGEUR_HORLOGE.px).height(22.px))
+        Spacer(Modifier.height(28.px))
         Text(
             maintenant.format(FORMAT_DATE).uppercase(Locale.FRENCH),
             style = TextStyle(
                 brush = Degrades.AccentHorizontal,
-                fontSize = 40.pxt,
+                fontSize = 38.pxt,
                 fontWeight = FontWeight.SemiBold,
                 letterSpacing = 8.pxt,
             ),

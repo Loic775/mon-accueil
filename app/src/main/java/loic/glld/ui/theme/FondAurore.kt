@@ -43,17 +43,17 @@ fun FondAurore(anime: Boolean = true) {
             drawRect(Couleurs.Fond)
             val w = size.width
             val h = size.height
-            halo(Couleurs.Cyan, 0.20f, Offset(w * (0.18f + 0.07f * sin(phase)), h * (0.12f + 0.10f * cos(phase * 0.8f))), w * 0.50f)
-            halo(Couleurs.Violet, 0.24f, Offset(w * (0.86f + 0.05f * cos(phase)), h * (0.28f + 0.12f * sin(phase * 1.3f))), w * 0.55f)
-            halo(Couleurs.Rose, 0.10f, Offset(w * (0.50f + 0.15f * sin(phase * 0.6f)), h * 1.08f), w * 0.45f)
+            halo(Couleurs.Cyan, 0.34f, Offset(w * (0.18f + 0.07f * sin(phase)), h * (0.12f + 0.10f * cos(phase * 0.8f))), w * 0.50f)
+            halo(Couleurs.Violet, 0.38f, Offset(w * (0.86f + 0.05f * cos(phase)), h * (0.28f + 0.12f * sin(phase * 1.3f))), w * 0.55f)
+            halo(Couleurs.Rose, 0.16f, Offset(w * (0.50f + 0.15f * sin(phase * 0.6f)), h * 1.08f), w * 0.45f)
         }
         // Couche statique : jamais redessinée par l'animation
         Canvas(Modifier.fillMaxSize()) {
             trame()
             drawRect(
                 Brush.radialGradient(
-                    0.55f to Color.Transparent,
-                    1f to Color(0xB3000000),
+                    0.6f to Color.Transparent,
+                    1f to Color(0x80000000),
                     center = center,
                     radius = size.maxDimension * 0.62f,
                 ),

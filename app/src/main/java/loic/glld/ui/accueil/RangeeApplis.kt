@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -54,7 +56,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /** Hauteur des tuiles : format 16:9 des bannières Fire TV. */
-private val HAUTEUR_TUILE = 182
+private val HAUTEUR_TUILE = 148
 
 /**
  * Le dock : 5 grandes tuiles. OK = lancer l'appli ;
@@ -69,7 +71,7 @@ fun RangeeApplis(
     premiereTuile: Modifier = Modifier,
     tuileFocaliseeApercu: Int? = null,
 ) {
-    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(36.px)) {
+    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(30.px)) {
         tuiles.forEachIndexed { index, appli ->
             Tuile(
                 appli = appli,
@@ -115,12 +117,12 @@ private fun Tuile(
         ) {
             ContenuTuile(appli, focalise)
         }
-        Spacer(Modifier.height(26.px))
+        Spacer(Modifier.height(22.px))
         // Nom de l'appli : n'apparaît que sous la tuile sélectionnée
         Text(
             appli?.nom ?: "",
             Modifier.graphicsLayer { alpha = visibiliteNom; translationY = (1f - visibiliteNom) * -12f },
-            fontSize = 26.pxt,
+            fontSize = 24.pxt,
             fontWeight = FontWeight.SemiBold,
             letterSpacing = 1.pxt,
             maxLines = 1,
@@ -144,14 +146,14 @@ private fun ContenuTuile(appli: AppliTv?, focalise: Boolean) {
                 "+",
                 style = TextStyle(
                     brush = if (focalise) Degrades.Accent else Brush.linearGradient(listOf(Couleurs.TexteSecondaire, Couleurs.TexteSecondaire)),
-                    fontFamily = SpaceGrotesk, fontWeight = FontWeight.Light, fontSize = 72.pxt, lineHeight = 72.pxt,
+                    fontFamily = SpaceGrotesk, fontWeight = FontWeight.Light, fontSize = 60.pxt, lineHeight = 60.pxt,
                 ),
             )
-            Text("Ajouter une appli", fontSize = 22.pxt, color = Couleurs.TexteSecondaire, letterSpacing = 1.pxt)
+            Text("Ajouter", fontSize = 22.pxt, color = Couleurs.TexteSecondaire, letterSpacing = 1.pxt)
         }
 
         appli.paquet == AppsRepository.PARAMETRES -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Engrenage(focalise, Modifier.size(96.px))
+            Engrenage(focalise, Modifier.size(84.px))
         }
 
         image != null && appli.estBanniere -> Box(Modifier.fillMaxSize().clip(forme)) {
@@ -174,18 +176,18 @@ private fun ContenuTuile(appli: AppliTv?, focalise: Boolean) {
             verticalArrangement = Arrangement.Center,
         ) {
             if (image != null) {
-                Image(image, null, Modifier.size(92.px).graphicsLayer { alpha = if (focalise) 1f else 0.75f })
+                Image(image, null, Modifier.size(72.px).graphicsLayer { alpha = if (focalise) 1f else 0.75f })
             } else {
                 Box(
-                    Modifier.size(84.px).background(Degrades.Accent, CircleShape),
+                    Modifier.size(68.px).background(Degrades.Accent, CircleShape),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Text(appli.nom.take(1).uppercase(), fontSize = 40.pxt, fontWeight = FontWeight.SemiBold, color = Couleurs.Fond)
+                    Text(appli.nom.take(1).uppercase(), fontSize = 34.pxt, fontWeight = FontWeight.SemiBold, color = Couleurs.Fond)
                 }
             }
-            Spacer(Modifier.height(10.px))
+            Spacer(Modifier.height(8.px))
             Text(
-                appli.nom, fontSize = 22.pxt, fontWeight = FontWeight.Medium,
+                appli.nom, fontSize = 20.pxt, fontWeight = FontWeight.Medium,
                 maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center,
                 color = Couleurs.TexteSecondaire,
             )
@@ -216,5 +218,20 @@ fun Engrenage(focalise: Boolean, modifier: Modifier = Modifier) {
         }
         drawPath(chemin, pinceau, alpha = .2f, style = Stroke(t * 3f, cap = StrokeCap.Round))
         drawPath(chemin, pinceau, style = Stroke(t, cap = StrokeCap.Round))
+    }
+}
+
+/** Bouton « Paramètres » en haut à droite : ouvre les Paramètres de la Fire TV. */
+@Composable
+fun BoutonParametres(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    ElementFocusable(onClick = onClick, modifier = modifier, rayon = 999.px, echelleFocus = 1.08f) { focalise ->
+        Row(
+            Modifier.padding(start = 18.px, end = 30.px, top = 10.px, bottom = 10.px),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Engrenage(focalise, Modifier.size(46.px))
+            Spacer(Modifier.width(8.px))
+            Text("Paramètres", fontSize = 24.pxt, fontWeight = FontWeight.Medium, color = if (focalise) Couleurs.Texte else Couleurs.TexteSecondaire)
+        }
     }
 }

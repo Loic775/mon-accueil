@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 /** Palette « néon de nuit » : noir profond, verre dépoli, cyan et violet lumineux. */
 object Couleurs {
-    val Fond = Color(0xFF04060C)
+    val Fond = Color(0xFF070B16)
     val Texte = Color(0xFFF5F7FA)
     val TexteSecondaire = Color(0xFF8E97AB)
     val TexteDiscret = Color(0xFF5A6377)

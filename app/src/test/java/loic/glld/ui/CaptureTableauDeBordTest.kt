@@ -10,7 +10,6 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.captureRoboImage
 import loic.glld.applis.AppliTv
-import loic.glld.applis.AppsRepository
 import loic.glld.meteo.Meteo
 import loic.glld.meteo.Prevision
 import loic.glld.ui.accueil.EtatMeteo
@@ -63,7 +62,8 @@ class CaptureTableauDeBordTest {
             AppliTv("com.amazon.firetv.youtube", "YouTube", banniere(0xFFFFFFFF.toInt(), "YouTube", 0xFF282828.toInt()), true),
             AppliTv("com.amazon.avod", "Prime Video", banniere(0xFF0F79AF.toInt(), "prime video", 0xFFFFFFFF.toInt()), true),
             null,
-            AppliTv(AppsRepository.PARAMETRES, "Paramètres", null, false),
+            AppliTv("com.spotify.tv.android", "Spotify", banniere(0xFF121212.toInt(), "Spotify", 0xFF1ED760.toInt()), true),
+            AppliTv("com.disney.disneyplus", "Disney+", banniere(0xFF0B1B4D.toInt(), "Disney+", 0xFFFFFFFF.toInt()), true),
         )
     }
 
@@ -77,6 +77,7 @@ class CaptureTableauDeBordTest {
                     tuiles = tuiles,
                     onLancer = {},
                     onChoisir = {},
+                    onParametres = {},
                     tuileFocaliseeApercu = focus,
                 )
             }
