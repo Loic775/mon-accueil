@@ -89,16 +89,16 @@ private fun ContenuTuile(appli: AppliTv?) {
                     appli.paquet == AppsRepository.PARAMETRES -> Engrenage(Modifier.padding(horizontal = 10.px).size(68.px))
                     image != null && appli.estBanniere -> Image(
                         image, null,
-                        Modifier.width(164.px).fillMaxHeight().clip(RoundedCornerShape(12.px)),
+                        Modifier.width(144.px).height(81.px).clip(RoundedCornerShape(12.px)),
                         contentScale = ContentScale.Crop,
                     )
-                    image != null -> Image(image, null, Modifier.size(92.px), contentScale = ContentScale.Fit)
-                    else -> Spacer(Modifier.size(92.px))
+                    image != null -> Image(image, null, Modifier.size(84.px), contentScale = ContentScale.Fit)
+                    else -> Spacer(Modifier.size(84.px))
                 }
-                Spacer(Modifier.width(18.px))
+                Spacer(Modifier.width(16.px))
                 Text(
                     appli.nom,
-                    fontSize = 28.pxt, fontWeight = FontWeight.SemiBold,
+                    fontSize = 26.pxt, fontWeight = FontWeight.SemiBold,
                     maxLines = 2, overflow = TextOverflow.Ellipsis,
                     lineHeight = 32.pxt,
                 )
