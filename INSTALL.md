@@ -1,8 +1,8 @@
 # Installer « Mon Accueil » sur la Fire TV
 
 Il te faut :
-- ton **lien direct** (`https://github.com/<pseudo>/mon-accueil/releases/download/latest/MonAccueil.apk`),
-- ou ton **code Downloader** (voir GITHUB.md, étape 6).
+- ton **code Downloader** : **`3771939`**
+- (ou le lien direct : `https://github.com/Loic775/mon-accueil/releases/download/latest/MonAccueil.apk`)
 
 ## 1. Installer Downloader
 1. Sur l'accueil de la Fire TV, va sur **Rechercher** (la loupe).
